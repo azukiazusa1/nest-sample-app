@@ -14,8 +14,8 @@ export class BooksResolver {
   }
 
   @Query((returns) => Book)
-  async getAuthor(@Args('id') id: number) {
-    const book = await this.authorsService.findOneById(id);
+  async getAuthor(@Args('id') id: string) {
+    const book = await this.booksService.findOneById(id);
     if (!book) {
       throw new NotFoundException(id);
     }
