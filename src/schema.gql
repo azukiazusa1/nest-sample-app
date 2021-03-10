@@ -6,7 +6,7 @@ type Book {
   id: ID!
   title: String!
   authors: [String!]!
-  price: Float!
+  price: Int!
   createdAt: DateTime!
 }
 
@@ -17,7 +17,7 @@ scalar DateTime
 
 type Query {
   books: [Book!]!
-  getAuthor(id: String!): Book!
+  getBook(id: String!): Book!
 }
 
 type Mutation {
@@ -27,6 +27,6 @@ type Mutation {
 
 input newBookInput {
   title: String!
-  price: Float!
+  price: Int!
   authors: [String!]!
 }

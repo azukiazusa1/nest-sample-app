@@ -1,4 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
 import { Max, MaxLength, Min } from 'class-validator';
 
 @InputType()
@@ -7,9 +7,9 @@ export class newBookInput {
   @MaxLength(30)
   title: string;
 
-  @Field()
-  @Min(9999)
-  @Max(10)
+  @Field((type) => Int)
+  @Min(0)
+  @Max(9999)
   price: number;
 
   @Field((type) => [String])
