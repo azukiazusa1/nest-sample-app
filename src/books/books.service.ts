@@ -4,21 +4,21 @@ import { newBookInput } from './dto/newBook.input';
 
 let books = [
   {
-    id: '1',
+    id: 1,
     title: 'test 1',
     authors: ['Joe'],
     price: 1000,
     createdAt: new Date(),
   },
   {
-    id: '2',
+    id: 2,
     title: 'test 2',
     authors: ['Joe', 'Maria'],
     price: 2000,
     createdAt: new Date(),
   },
   {
-    id: '3',
+    id: 3,
     title: 'test 3',
     authors: ['Smith'],
     price: 3000,
@@ -32,7 +32,7 @@ export class BooksService {
     return Promise.resolve(books);
   }
 
-  findOneById(id: string): Promise<Book> {
+  findOneById(id: number): Promise<Book> {
     const book = books.find((book) => book.id === id);
     return Promise.resolve(book);
   }
@@ -40,7 +40,7 @@ export class BooksService {
   create(data: newBookInput): Promise<Book> {
     const book: Book = {
       ...data,
-      id: String(Date.now()),
+      id: Date.now(),
       createdAt: new Date(),
     };
     books.push(book);
@@ -48,7 +48,7 @@ export class BooksService {
     return Promise.resolve(book);
   }
 
-  async remove(id: string): Promise<boolean> {
+  async remove(id: number): Promise<boolean> {
     books = books.filter((book) => book.id !== id);
     return true;
   }

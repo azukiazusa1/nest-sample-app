@@ -1,5 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Book } from './book';
 import { BooksService } from './books.service';
 import { newBookInput } from './dto/newBook.input';
@@ -14,7 +14,7 @@ export class BooksResolver {
   }
 
   @Query((returns) => Book)
-  async getBook(@Args('id') id: string) {
+  async getBook(@Args({ name: 'id', type: () => Int }) id: number) {
     const book = await this.booksService.findOneById(id);
     if (!book) {
       throw new NotFoundException(id);
@@ -28,7 +28,7 @@ export class BooksResolver {
   }
 
   @Mutation((returns) => Boolean)
-  async removeRecipe(@Args('id') id: string) {
+  async removeRecipe(@Args({ name: 'id', type: () => Int }) id: number) {
     return this.booksService.remove(id);
   }
 }
