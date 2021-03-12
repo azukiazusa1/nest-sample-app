@@ -12,6 +12,6 @@ export class newBookInput {
   @Max(9999)
   price: number;
 
-  @Field((type) => [String])
-  authors: string[];
+  @Field()
+  author: string;
 }

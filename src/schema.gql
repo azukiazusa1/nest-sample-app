@@ -5,7 +5,7 @@
 type Book {
   id: ID!
   title: String!
-  authors: [String!]!
+  author: [String!]!
   price: Int!
   createdAt: DateTime!
 }
@@ -22,11 +22,11 @@ type Query {
 
 type Mutation {
   addBook(newBook: newBookInput!): Book!
-  removeRecipe(id: Int!): Boolean!
+  removeBook(id: Int!): Boolean!
 }
 
 input newBookInput {
   title: String!
   price: Int!
-  authors: [String!]!
+  author: String!
 }

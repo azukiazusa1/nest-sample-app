@@ -1,55 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { Book } from './book';
 import { newBookInput } from './dto/newBook.input';
-
-let books = [
-  {
-    id: 1,
-    title: 'test 1',
-    authors: ['Joe'],
-    price: 1000,
-    createdAt: new Date(),
-  },
-  {
-    id: 2,
-    title: 'test 2',
-    authors: ['Joe', 'Maria'],
-    price: 2000,
-    createdAt: new Date(),
-  },
-  {
-    id: 3,
-    title: 'test 3',
-    authors: ['Smith'],
-    price: 3000,
-    createdAt: new Date(),
-  },
-] as Book[];
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class BooksService {
+  constructor(
+    @InjectRepository(Book)
+    private booksRepostiory: Repository<Book>,
+  ) {}
+
   findAll(): Promise<Book[]> {
-    return Promise.resolve(books);
+    return this.booksRepostiory.find();
   }
 
   findOneById(id: number): Promise<Book> {
-    const book = books.find((book) => book.id === id);
-    return Promise.resolve(book);
+    return this.booksRepostiory.findOne(id);
   }
 
-  create(data: newBookInput): Promise<Book> {
-    const book: Book = {
-      ...data,
-      id: Date.now(),
-      createdAt: new Date(),
-    };
-    books.push(book);
-
-    return Promise.resolve(book);
+  async create(data: newBookInput): Promise<Book> {
+    const book = this.booksRepostiory.create(data);
+    await this.booksRepostiory.save(book);
+    return book;
   }
 
   async remove(id: number): Promise<boolean> {
-    books = books.filter((book) => book.id !== id);
-    return true;
+    const result = await this.booksRepostiory.delete(id);
+    return result.affected > 0;
   }
 }
